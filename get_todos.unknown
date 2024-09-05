@@ -1,0 +1,22 @@
+<?php
+header('Content-Type: application/json');
+
+$conn = new mysqli('localhost', 'root', '', 'todo_app');
+
+if ($conn->connect_error) {
+    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
+    exit;
+}
+
+$result = $conn->query('SELECT * FROM todos');
+
+$todos = [];
+
+while ($row = $result->fetch_assoc()) {
+    $todos[] = $row;
+}
+
+echo json_encode(['success' => true, 'todos' => $todos]);
+
+$conn->close();
+?>
